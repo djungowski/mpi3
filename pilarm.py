@@ -7,6 +7,10 @@ from mplayer.async import AsyncPlayer
 wakeupTime = sys.argv[1]
 wakeupSong = sys.argv[2]
 
+if (os.path.isfile(wakeupSong) == False):
+	print 'The file "' + wakeupSong + '" does not exist'
+	sys.exit()
+
 isPlaylist = (re.search('[pls|m3u]$', wakeupSong) != None)
 
 # Must put into a class! 
