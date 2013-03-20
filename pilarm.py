@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
-import os, sys, logging, time, asyncore, re
-
+import os, sys, logging, time, asyncore, re, getopt
 from mplayer.async import AsyncPlayer
 
 wakeupTime = sys.argv[1]
