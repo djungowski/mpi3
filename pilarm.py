@@ -1,14 +1,34 @@
 #!/usr/bin/python
 
-import os, sys, logging
+import os, sys, logging, time, asyncore
 
-from mplayer import Player
+from mplayer.async import AsyncPlayer
 
-player = Player()
-player.loadfile('../mp3/good_charlotte_-_we_believe__matthew_adams_true_sadness_mix.mp3')
+wakeupTime = sys.argv[1]
+wakeupSong = sys.argv[2]
 
-def input():
-	logging.debug("Foobar")
+# Must put into a class! 
+playing = False
+
+logging.basicConfig(level=logging.INFO)
+logging.info('Waking up at ' + wakeupTime)
+logging.info('Waking you up with: ' + wakeupSong)
+
+def wakeup():
+	player = AsyncPlayer()
+	player.loadfile(wakeupSong)
+	asyncore.loop()
+
+def loop():
+	# ugly! must put into class in next step
+	global playing
+	
+	currentTime = time.strftime('%H:%M')
+	if (currentTime == wakeupTime and playing == False):
+		logging.info('Wakeup time ' + wakeupTime + ' reached. Ring Ring! :-)')
+		playing = True
+		wakeup()
+	time.sleep(10)
 
 while True:
-	input()
+	loop()
