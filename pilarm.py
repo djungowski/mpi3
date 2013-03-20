@@ -1,32 +1,38 @@
 #!/usr/bin/python
 
-import os, sys, logging, time, asyncore
+import os, sys, logging, time, asyncore, re
 
 from mplayer.async import AsyncPlayer
 
 wakeupTime = sys.argv[1]
 wakeupSong = sys.argv[2]
 
+isPlaylist = (re.search('[pls|m3u]$', wakeupSong) != None)
+
 # Must put into a class! 
-playing = False
+wakeupTriggered = False
 
 logging.basicConfig(level=logging.INFO)
-logging.info('Waking up at ' + wakeupTime)
+logging.info('Waking you up at ' + wakeupTime)
 logging.info('Waking you up with: ' + wakeupSong)
 
 def wakeup():
 	player = AsyncPlayer()
-	player.loadfile(wakeupSong)
+	if (isPlaylist):
+		player.loadlist(wakeupSong)
+	else:
+		player.loadfile(wakeupSong)
+	logging.info('Playing ' + wakeupSong)
 	asyncore.loop()
 
 def loop():
 	# ugly! must put into class in next step
-	global playing
+	global wakeupTriggered
 	
 	currentTime = time.strftime('%H:%M')
-	if (currentTime == wakeupTime and playing == False):
+	if (currentTime == wakeupTime and wakeupTriggered == False):
 		logging.info('Wakeup time ' + wakeupTime + ' reached. Ring Ring! :-)')
-		playing = True
+		wakeupTriggered = True
 		wakeup()
 	time.sleep(10)
 
