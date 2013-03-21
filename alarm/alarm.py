@@ -39,7 +39,17 @@ class Alarm:
 			self.__getPlayer().loadfile(self.__wakeupMusic)
 		
 		self.__logging.info('Playing ' + self.__wakeupMusic)
+		self.__fadein()
 		asyncore.loop()
+	
+	def __fadein(self):
+		volume=10
+		stepsize=2
+		steps=(100-volume)/stepsize
+		for i in range(steps):
+			volume += stepsize
+			self.__getPlayer().volume = volume
+			time.sleep(1)
 
 	def start(self):
 		while True:
