@@ -1,6 +1,12 @@
 echo "+++ Installing mplayer"
 sudo apt-get install mplayer
 
+echo "+++ Installing python-setuptools"
+sudo apt-get install python-setuptools
+
+echo "+++ Installing python-tornado"
+sudo easy_install tornado
+
 echo "+++ Creating setup dir"
 mkdir setup
 cd setup
