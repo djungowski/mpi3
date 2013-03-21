@@ -6,7 +6,7 @@ mkdir setup
 cd setup
 
 echo "+++ Installing python-mplayer"
-git clone git://github.com/baudm/mplayer.py.git
+git clone git://github.com/djungowski/mplayer.py.git
 cd mplayer.py
 sudo python setup.py install
 
