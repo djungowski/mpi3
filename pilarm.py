@@ -21,6 +21,7 @@ logging.info('Waking you up with: ' + wakeupSong)
 
 def wakeup():
 	player = AsyncPlayer()
+	player.args = ['-loop 0']
 	if (isPlaylist):
 		player.loadlist(wakeupSong)
 	else:
