@@ -13,13 +13,8 @@ class Alarm:
 
 	def __init__(self, logging):
 		self.__logging = logging
-
-	def __getPlayer(self):
-		if (self.__player == None):
-			self.__player = AsyncPlayer()
-			self.__player.loop = 0
-
-		return self.__player
+		self.__player = AsyncPlayer()
+		self.__player.loop = 0
 
 	def setWakeupTime(self, wakeupTime):
 		self.__wakeupTime = wakeupTime
@@ -34,9 +29,9 @@ class Alarm:
 	
 	def wakeup(self):
 		if (self.isWakeupMusicPlaylist()):
-			self.__getPlayer().loadlist(self.__wakeupMusic)
+			self.__player.loadlist(self.__wakeupMusic)
 		else:
-			self.__getPlayer().loadfile(self.__wakeupMusic)
+			self.__player.loadfile(self.__wakeupMusic)
 		
 		self.__logging.info('Playing ' + self.__wakeupMusic)
 		self.__fadein()
@@ -48,7 +43,7 @@ class Alarm:
 		steps=(100-volume)/stepsize
 		for i in range(steps):
 			volume += stepsize
-			self.__getPlayer().volume = volume
+			self.__player.volume = volume
 			time.sleep(1)
 
 	def start(self):
