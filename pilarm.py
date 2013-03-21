@@ -3,7 +3,8 @@
 import os
 import sys
 import logging
-from alarm.alarm import Alarm
+from tornado import websocket, ioloop, web
+from alarm import alarm, websocket
 
 wakeupTime = sys.argv[1]
 wakeupMusic = sys.argv[2]
@@ -14,7 +15,14 @@ if (os.path.isfile(wakeupMusic) == False):
 
 logging.basicConfig(level=logging.INFO)
 
-alarm = Alarm(logging)
-alarm.setWakeupTime(wakeupTime)
-alarm.setWakeupMusic(wakeupMusic)
-alarm.start()
+webapp = web.Application([
+	(r"/websocket", websocket.WebSocket),
+])
+
+#webapp.listen(8888)
+#ioloop.IOLoop.instance().start()
+
+pilarm = alarm.Alarm(logging)
+pilarm.setWakeupTime(wakeupTime)
+pilarm.setWakeupMusic(wakeupMusic)
+pilarm.start()
