@@ -33,6 +33,6 @@ Web Interface
 ============
 pilarm comes with a (so far very basic) web interface which lets you control the alarm. If your Raspberry Pi's ip adress is 192.168.1.9, you can reach the web interface at
 
-	http://192.168.1.9.
+	http://192.168.1.9
 	
 Make sure you have Javascript turned on and that you use a browser that supports WebSockets (every modern browser does). The web interface's style is mobile-first, so you can also use it with your smartphone.
