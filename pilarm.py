@@ -20,7 +20,7 @@ threadAlarm = threadalarm.ThreadAlarm("ThreadAlarm", wakeupTime, wakeupMusic, lo
 threadAlarm.start()
 
 logging.info('Starting web interface')
-threadWeb = threadweb.ThreadWeb(name="ThreadWeb")
+threadWeb = threadweb.ThreadWeb("ThreadWeb", logging)
 threadWeb.start()
 
 def signal_handler(signal, frame):

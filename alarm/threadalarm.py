@@ -20,6 +20,7 @@ class ThreadAlarm(threading.Thread):
 		self.alarm = alarm.Alarm(self.__logging)
 		self.alarm.setWakeupTime(self.__wakeupTime)
 		self.alarm.setWakeupMusic(self.__wakeupMusic)
+		self.__logging.info('Alarm ready')
 		self.alarm.run()
 
 	def stopAlarm(self):
