@@ -1,7 +1,6 @@
 import threading
 from tornado import ioloop, web
 import websocket
-import webinterface
 import os
 
 class ThreadWeb(threading.Thread):
