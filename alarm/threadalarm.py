@@ -23,4 +23,4 @@ class ThreadAlarm(threading.Thread):
 		self.alarm.run()
 
 	def stopAlarm(self):
-		self.__alarm.stop()
+		self.alarm.stop()
