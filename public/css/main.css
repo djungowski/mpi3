@@ -1,0 +1,18 @@
+body {
+	font-size: 15px;
+}
+
+input, button {
+	display: block;
+	padding: 6px;
+	font-size: 15px;
+	margin-bottom: 25px;
+}
+
+input {
+	width: 98%;
+}
+
+button {
+	width: 100%;
+}

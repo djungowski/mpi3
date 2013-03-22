@@ -1,6 +1,8 @@
 import threading
 from tornado import ioloop, web
 import websocket
+import webinterface
+import os
 
 class ThreadWeb(threading.Thread):
 	__logging = None
@@ -17,9 +19,11 @@ class ThreadWeb(threading.Thread):
 	def run(self):
 		webapp = web.Application([
 			(r"/websocket", websocket.WebSocket, {"queue":self.__queue}),
+			(r"/", web.RedirectHandler, {"url": "/index.html"}),
+			(r"/(.*)", web.StaticFileHandler, {"path": os.getcwd() + "/public/"}),
 		])
 
-		webapp.listen(8888)
+		webapp.listen(80)
 		self.__logging.info('Web interface up and running')
 		ioloop.IOLoop.instance().start()
 	
