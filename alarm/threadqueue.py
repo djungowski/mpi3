@@ -18,6 +18,7 @@ class ThreadQueue(threading.Thread):
 		return self.__queue
 
 	def run(self):
+		self.queue.put('{}')
 		while True:
 			workload = json.loads(self.__queue.get())
 			print(workload)
