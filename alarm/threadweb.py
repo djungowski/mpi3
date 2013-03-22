@@ -4,10 +4,15 @@ import websocket
 
 class ThreadWeb(threading.Thread):
 	__logging = None
+	__queue = None
 
-	def __init__(self, name, logging):
+	def __init__(self, name, queue, logging):
 		threading.Thread.__init__(self, name=name)
 		self.__logging = logging
+		self.__queue = queue
+
+	def queue(self):
+		return self.queue
 
 	def run(self):
 		webapp = web.Application([
