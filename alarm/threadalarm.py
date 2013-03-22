@@ -1,5 +1,6 @@
 import threading
 import alarm
+import json
 
 class ThreadAlarm(threading.Thread):
 	__alarm = None
@@ -39,5 +40,9 @@ class ThreadAlarm(threading.Thread):
 		type = workload.get("type")
 		if (type == "wakeupTime"):
 			self.alarm.setWakeupTime(workload.get("value"))
+			pushData = {"target":"web","type":"message","value":"New alarm time set"}
 		elif (type == "stop"):
 			self.alarm.stop()
+			pushData = {"target":"web","type":"message","value":"Alarm stopped"}
+		
+		self.__queue.put(json.dumps(pushData))
