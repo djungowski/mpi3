@@ -18,6 +18,11 @@ class ThreadQueue(threading.Thread):
 		return self.__queue
 
 	def run(self):
+		temp = {"target":"ThreadWeb"}
+		self.queue().put(json.dumps(temp))
 		while True:
 			workload = json.loads(self.__queue.get())
-			print(workload)
+			target = workload.get("target")
+			targetThread = self.threads().get(target)
+			if (targetThread != None):
+				targetThread.receive(workload)

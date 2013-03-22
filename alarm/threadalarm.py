@@ -30,3 +30,8 @@ class ThreadAlarm(threading.Thread):
 
 	def stopAlarm(self):
 		self.alarm.stop()
+	
+	# Receive message from queue
+	def receive(self, workload):
+		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
+		self.__logging.debug(workload)

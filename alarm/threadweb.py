@@ -22,3 +22,8 @@ class ThreadWeb(threading.Thread):
 		webapp.listen(8888)
 		self.__logging.info('Web interface up and running')
 		ioloop.IOLoop.instance().start()
+	
+	# Receive message from queue
+	def receive(self, workload):
+		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
+		self.__logging.debug(workload)
