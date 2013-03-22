@@ -1,5 +1,4 @@
 import re
-import asyncore
 import time
 from mplayer.async import AsyncPlayer
 
@@ -10,6 +9,7 @@ class Alarm:
 	__logging = None
 	__isPlaylist = False
 	__alarmTriggered = False
+	__run = True
 
 	def __init__(self, logging):
 		self.__logging = logging
@@ -27,7 +27,7 @@ class Alarm:
 	def isWakeupMusicPlaylist(self):
 		return (re.search('(pls|m3u)$', self.__wakeupMusic) != None)
 	
-	def wakeup(self):
+	def start(self):
 		if (self.isWakeupMusicPlaylist()):
 			self.__player.loadlist(self.__wakeupMusic)
 		else:
@@ -35,7 +35,6 @@ class Alarm:
 		
 		self.__logging.info('Playing ' + self.__wakeupMusic)
 		self.__fadein()
-		asyncore.loop()
 	
 	def __fadein(self):
 		volume=10
@@ -46,14 +45,17 @@ class Alarm:
 			self.__player.volume = volume
 			time.sleep(1)
 
-	def start(self):
-		while True:
+	def run(self):
+		while self.__run:
 			self.__loop()
+	
+	def stop(self):
+		self.__player.stop()
 
 	def __loop(self):
 		currentTime = time.strftime('%H:%M')
 		if (currentTime == self.__wakeupTime and self.__alarmTriggered == False):
 			self.__logging.info('Wakeup time ' + self.__wakeupTime + ' reached. Ring Ring! :-)')
 			self.__alarmTriggered = True
-			self.wakeup()
+			self.start()
 		time.sleep(10)
