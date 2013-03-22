@@ -14,16 +14,22 @@ if (os.path.isfile(wakeupMusic) == False):
 	print 'The file "' + wakeupMusic + '" does not exist'
 	sys.exit()
 
-logging.basicConfig(level=logging.INFO)
+# Set up logger
+if "--debug" in sys.argv or "-d" in sys.argv:
+	loglevel = logging.DEBUG
+else:
+	loglevel = logging.INFO
+
+logging.basicConfig(level=loglevel)
 
 queue = Queue.Queue()
 
 logging.info('Starting alarm')
-threadAlarm = threadalarm.ThreadAlarm("ThreadAlarm", wakeupTime, wakeupMusic, queue, logging)
+threadAlarm = threadalarm.ThreadAlarm("alarm", wakeupTime, wakeupMusic, queue, logging)
 threadAlarm.start()
 
 logging.info('Starting web interface')
-threadWeb = threadweb.ThreadWeb("ThreadWeb", queue, logging)
+threadWeb = threadweb.ThreadWeb("web", queue, logging)
 threadWeb.start()
 
 logging.debug('Starting queue')
@@ -34,7 +40,6 @@ threadQueue.start()
 def signal_handler(signal, frame):
 	print 'Alarm stopped'
 	threadAlarm.stopAlarm()
-	sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
 print '+++'

@@ -12,11 +12,11 @@ class ThreadWeb(threading.Thread):
 		self.__queue = queue
 
 	def queue(self):
-		return self.queue
+		return self.__queue
 
 	def run(self):
 		webapp = web.Application([
-			(r"/websocket", websocket.WebSocket),
+			(r"/websocket", websocket.WebSocket, {"queue":self.__queue}),
 		])
 
 		webapp.listen(8888)

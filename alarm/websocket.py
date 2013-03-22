@@ -1,11 +1,18 @@
 from tornado import websocket
+import json
 
 class WebSocket(websocket.WebSocketHandler):
-    def open(self):
-        print "WebSocket opened"
+	__queue = None
 
-    def on_message(self, message):
-        self.write_message(u"You said: " + message)
+	def initialize(self, queue):
+		print(queue)
+		self.__queue = queue
 
-    def on_close(self):
-        print "WebSocket closed"
+	def open(self):
+		print "WebSocket opened"
+
+	def on_message(self, message):
+		self.__queue.put(message)
+
+	def on_close(self):
+		print "WebSocket closed"

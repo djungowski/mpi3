@@ -51,6 +51,7 @@ class Alarm:
 	
 	def stop(self):
 		self.__player.stop()
+		self.__alarmTriggered = False
 
 	def __loop(self):
 		currentTime = time.strftime('%H:%M')

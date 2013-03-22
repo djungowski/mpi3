@@ -35,3 +35,9 @@ class ThreadAlarm(threading.Thread):
 	def receive(self, workload):
 		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
 		self.__logging.debug(workload)
+
+		type = workload.get("type")
+		if (type == "wakeupTime"):
+			self.alarm.setWakeupTime(workload.get("value"))
+		elif (type == "stop"):
+			self.alarm.stop()
