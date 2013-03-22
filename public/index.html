@@ -4,15 +4,22 @@
 	<title>Pilarm - Raspbarry Pi Alarm</title>
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="/js/jquery.alarm.js"></script>
+	<script type="text/javascript" src="/js/jquery.alarmcontrol.js"></script>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" />
 </head>
 <body>
 	<h1>Pilarm - Raspberry Pi Alarm</h1>
-	<form action="" method="get">
+	<form action="" method="get" id="alarmcontrol">
 		<input type="text" id="set-alarm-value" />
 		<button id="set-alarm-button">Set alarm time</button>
 		<button id="stop-alarm">Stop alarm</button>
 	</form>
+	<script type="text/javascript">
+	var ws = new WebSocket('ws://' + window.location.hostname + '/websocket');
+	$('#alarmcontrol').alarmcontrol({
+		socket: ws
+	});
+	</script>
 </body>
 </html>
 

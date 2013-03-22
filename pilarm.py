@@ -34,7 +34,7 @@ threadWeb.start()
 
 logging.debug('Starting queue')
 workerThreads = {threadAlarm.getName(): threadAlarm, threadWeb.getName(): threadWeb}
-threadQueue = threadqueue.ThreadQueue("ThreadQueue", queue, workerThreads)
+threadQueue = threadqueue.ThreadQueue("ThreadQueue", queue, workerThreads, logging)
 threadQueue.start()
 
 def signal_handler(signal, frame):
