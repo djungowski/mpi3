@@ -3,10 +3,7 @@
 import os
 import sys
 import logging
-from tornado import websocket, ioloop, web
-from alarm import alarm, websocket, threadalarm
-import time
-import threading
+from alarm import threadalarm, threadweb
 import signal
 
 wakeupTime = sys.argv[1]
@@ -18,19 +15,12 @@ if (os.path.isfile(wakeupMusic) == False):
 
 logging.basicConfig(level=logging.INFO)
 
-class WebThread(threading.Thread):
-	def run(self):
-		webapp = web.Application([
-			(r"/websocket", websocket.WebSocket),
-		])
-
-		webapp.listen(8888)
-		ioloop.IOLoop.instance().start()
-
+logging.info('Starting alarm')
 threadAlarm = threadalarm.ThreadAlarm("ThreadAlarm", wakeupTime, wakeupMusic, logging)
 threadAlarm.start()
 
-threadWeb = WebThread(name="ThreadWeb")
+logging.info('Starting web interface')
+threadWeb = threadweb.ThreadWeb(name="ThreadWeb")
 threadWeb.start()
 
 def signal_handler(signal, frame):
@@ -38,5 +28,9 @@ def signal_handler(signal, frame):
 	threadAlarm.stopAlarm()
 	sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
+
+print '+++'
 print 'Press Ctrl+C to stop alarm when active'
+print '+++'
+
 signal.pause()
