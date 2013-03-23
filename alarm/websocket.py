@@ -16,3 +16,6 @@ class WebSocket(websocket.WebSocketHandler):
 
 	def on_close(self):
 		print "WebSocket closed"
+
+	def send(self, message):
+		self.write_message(message)

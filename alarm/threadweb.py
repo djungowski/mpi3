@@ -3,11 +3,14 @@ from tornado import ioloop, web
 import websocket
 import os
 
-class WebSocketDispatcher:
+class CollectionListener:
 	__socket = None
 
 	def socket(self, socket):
 		self.__socket = socket
+	
+	def send(self, message):
+		self.__socket.send(message)
 
 class ThreadWeb(threading.Thread):
 	__logging = None
@@ -19,7 +22,7 @@ class ThreadWeb(threading.Thread):
 		threading.Thread.__init__(self, name=name)
 		self.__logging = logging
 		self.__queue = queue
-		self.__dispatcher = WebSocketDispatcher()
+		self.__dispatcher = CollectionListener()
 
 	def queue(self):
 		return self.__queue
