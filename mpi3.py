@@ -6,13 +6,8 @@ import logging
 from alarm import threadalarm, threadweb, threadqueue
 import signal
 import Queue
-
-wakeupTime = sys.argv[1]
-wakeupMusic = sys.argv[2]
-
-if (os.path.isfile(wakeupMusic) == False):
-	print 'The file "' + wakeupMusic + '" does not exist'
-	sys.exit()
+import ConfigParser
+from scan import music
 
 # Set up logger
 if "--debug" in sys.argv or "-d" in sys.argv:
@@ -22,6 +17,24 @@ else:
 
 logging.basicConfig(level=loglevel)
 
+logging.debug('Reading config')
+config = ConfigParser.ConfigParser()
+config.read(os.getcwd() + "/config.ini")
+
+musicPaths = config.items("paths")
+logging.info('Scanning music collection')
+logging.debug(musicPaths)
+collection = music.Music(musicPaths)
+collection.scan()
+logging.info('Scanning finished. Found ' +  str(collection.count()) + ' items')
+
+wakeupTime = sys.argv[1]
+wakeupMusic = sys.argv[2]
+
+if (os.path.isfile(wakeupMusic) == False):
+	print 'The file "' + wakeupMusic + '" does not exist'
+	sys.exit()
+
 queue = Queue.Queue()
 
 logging.info('Starting alarm')
@@ -30,6 +43,7 @@ threadAlarm.start()
 
 logging.info('Starting web interface')
 threadWeb = threadweb.ThreadWeb("web", queue, logging)
+threadWeb.collection = collection
 threadWeb.start()
 
 logging.debug('Starting queue')

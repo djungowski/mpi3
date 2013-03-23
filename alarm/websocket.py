@@ -4,9 +4,9 @@ import json
 class WebSocket(websocket.WebSocketHandler):
 	__queue = None
 
-	def initialize(self, queue):
-		print(queue)
+	def initialize(self, queue, dispatcher):
 		self.__queue = queue
+		dispatcher.socket = self
 
 	def open(self):
 		print "WebSocket opened"
