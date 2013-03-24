@@ -18,7 +18,11 @@ class CollectionListener:
 		self.__socket.send(message)
 	
 	def list(self):
-		self.send(json.dumps(self.__collection.getAll()))
+		pushData = {
+			"type":"collection.list",
+			"data":self.__collection.getAll()
+		}
+		self.send(json.dumps(pushData))
 
 class ThreadWeb(threading.Thread):
 	__logging = None
