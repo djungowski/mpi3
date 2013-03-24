@@ -44,5 +44,8 @@ class ThreadAlarm(threading.Thread):
 		elif (type == "stop"):
 			self.alarm.stop()
 			pushData = {"target":"web","type":"message","value":"Alarm stopped"}
+		elif (type == "wakeupMusic"):
+			self.alarm.setWakeupMusic(workload.get("value"))
+			pushData = {"target":"web","type":"message","value":"New alarm music set"}
 		
 		self.__queue.put(json.dumps(pushData))

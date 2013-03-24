@@ -4,25 +4,27 @@ import websocket
 import os
 import json
 
-class CollectionListener:
+class WebSocketListener:
 	__socket = None
-	__collection = None
-
-	def __init__(self, collection):
-		self.__collection = collection
 
 	def setSocket(self, socket):
 		self.__socket = socket
 	
 	def send(self, message):
-		self.__socket.send(message)
+		self.__socket.send(json.dumps(message))
+
+class CollectionListener(WebSocketListener):
+	__collection = None
+
+	def __init__(self, collection):
+		self.__collection = collection
 	
 	def list(self):
 		pushData = {
 			"type":"collection.list",
 			"data":self.__collection.getAll()
 		}
-		self.send(json.dumps(pushData))
+		self.send(pushData)
 
 class ThreadWeb(threading.Thread):
 	__logging = None
@@ -34,9 +36,9 @@ class ThreadWeb(threading.Thread):
 		threading.Thread.__init__(self, name=name)
 		self.__logging = logging
 		self.__queue = queue
-		#self.__listeners = {
-		#	"collection": CollectionListener()
-		#}
+		self.__listeners = {
+			"message": WebSocketListener()
+		}
 
 	def queue(self):
 		return self.__queue
@@ -60,6 +62,8 @@ class ThreadWeb(threading.Thread):
 		type = workload.get("type")
 		if (type == "collection.list"):
 			self.__listeners.get("collection").list()
+		elif (type == "message"):
+			self.__listeners.get("message").send(workload)
 		
 	def setCollection(self, collection):
 		self.__collection = collection
