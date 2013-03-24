@@ -2,15 +2,23 @@ import threading
 from tornado import ioloop, web
 import websocket
 import os
+import json
 
 class CollectionListener:
 	__socket = None
+	__collection = None
 
-	def socket(self, socket):
+	def __init__(self, collection):
+		self.__collection = collection
+
+	def setSocket(self, socket):
 		self.__socket = socket
 	
 	def send(self, message):
 		self.__socket.send(message)
+	
+	def list(self):
+		self.send(json.dumps(self.__collection.getAll()))
 
 class ThreadWeb(threading.Thread):
 	__logging = None
@@ -22,9 +30,9 @@ class ThreadWeb(threading.Thread):
 		threading.Thread.__init__(self, name=name)
 		self.__logging = logging
 		self.__queue = queue
-		self.__listeners = {
-			"collection": CollectionListener()
-		}
+		#self.__listeners = {
+		#	"collection": CollectionListener()
+		#}
 
 	def queue(self):
 		return self.__queue
@@ -45,8 +53,10 @@ class ThreadWeb(threading.Thread):
 		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
 		self.__logging.debug(workload)
 
-		if (workload.type == "collection.list"):
-			self.__dispatcher
+		type = workload.get("type")
+		if (type == "collection.list"):
+			self.__listeners.get("collection").list()
 		
-	def collection(self, collection):
+	def setCollection(self, collection):
 		self.__collection = collection
+		self.__listeners["collection"] = CollectionListener(collection)

@@ -7,7 +7,7 @@ class WebSocket(websocket.WebSocketHandler):
 	def initialize(self, queue, listeners):
 		self.__queue = queue
 		for key in listeners:
-			listeners[key].socket = self
+			listeners[key].setSocket(self)
 
 	def open(self):
 		print "WebSocket opened"

@@ -43,7 +43,7 @@ threadAlarm.start()
 
 logging.info('Starting web interface')
 threadWeb = threadweb.ThreadWeb("web", queue, logging)
-threadWeb.collection = collection
+threadWeb.setCollection(collection)
 threadWeb.start()
 
 logging.debug('Starting queue')
