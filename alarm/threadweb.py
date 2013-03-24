@@ -16,20 +16,22 @@ class ThreadWeb(threading.Thread):
 	__logging = None
 	__queue = None
 	__collection = None
-	__dispatcher = None
+	__listeners = {}
 
 	def __init__(self, name, queue, logging):
 		threading.Thread.__init__(self, name=name)
 		self.__logging = logging
 		self.__queue = queue
-		self.__dispatcher = CollectionListener()
+		self.__listeners = {
+			"collection": CollectionListener()
+		}
 
 	def queue(self):
 		return self.__queue
 
 	def run(self):
 		webapp = web.Application([
-			(r"/websocket", websocket.WebSocket, {"queue":self.__queue, "dispatcher":self.__dispatcher}),
+			(r"/websocket", websocket.WebSocket, {"queue":self.__queue, "listeners":self.__listeners}),
 			(r"/", web.RedirectHandler, {"url": "/index.html"}),
 			(r"/(.*)", web.StaticFileHandler, {"path": os.getcwd() + "/public/"}),
 		])
@@ -42,6 +44,9 @@ class ThreadWeb(threading.Thread):
 	def receive(self, workload):
 		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
 		self.__logging.debug(workload)
+
+		if (workload.type == "collection.list"):
+			self.__dispatcher
 		
 	def collection(self, collection):
 		self.__collection = collection
