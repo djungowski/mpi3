@@ -16,6 +16,12 @@
 	</form>
 	<script type="text/javascript">
 	var ws = new WebSocket('ws://' + window.location.hostname + '/websocket');
+	ws.onmessage = function(data) {
+		message = JSON.parse(data.data);
+		if (message.type == "message") {
+			alert(message.value);
+		}
+	}
 	$('#alarmcontrol').alarmcontrol({
 		socket: ws
 	});
