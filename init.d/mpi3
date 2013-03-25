@@ -1,0 +1,37 @@
+. /lib/lsb/init-functions
+
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/home/pi/mpi3
+DESC="mpi3 - Raspberry Pi Music Player"
+NAME=mpi3
+DAEMON=/home/pi/mpi3/mpi3.py
+PIDFILE=/var/run/mpi3.pid
+SCRIPTNAME=/etc/init.d/"$NAME"
+
+case "$1" in
+start)	log_daemon_msg "Starting mpi3 daemon" "mpi3"
+	cd "$(dirname "$DAEMON")"
+	start_daemon -p $PIDFILE $DAEMON -d $EXTRA_OPTS
+        log_end_msg $?
+	;;
+
+stop)   log_daemon_msg "Stopping mpi3 daemon" "mpi3"
+        killproc -p $PIDFILE $DAEMON
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && [ -e "$PIDFILE" ] && rm -f $PIDFILE
+        log_end_msg $RETVAL
+        ;;
+
+restart) log_daemon_msg "Restarting mpi3 daemon" "mpi3"
+        $0 stop
+        $0 start
+        ;;
+
+status)
+        status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
+        ;;
+
+*)      log_action_msg "Usage: /etc/init.d/mpi3 {start|stop|status|restart}"
+        exit 2
+        ;;
+esac
+exit 0
