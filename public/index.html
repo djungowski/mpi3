@@ -8,8 +8,8 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" />
 </head>
 <body>
-	<h1>mpi3 - Alarm Control</h1>
-	<div id="mpi3-alarm-current">
+	<h1>mpi3: Alarm Control</h1>
+	<div id="mpi3-alarm-current" class="mpi3-border">
 		<p>
 			<b>Current time:</b>
 			<span id="mpi3-alarm-current-time"></span>
@@ -20,17 +20,20 @@
 		</p>
 	</div>
 	<form action="" method="get" id="alarmcontrol">
-		<div id="mpi3-alarm-time">
+		<div id="mpi3-alarm-time" class="mpi3-border">
 			<b>Set alarm time:</b>
-			<input type="text" id="set-alarm-value" />
-			<button id="set-alarm-button">Set alarm time</button>
+			<input type="text" id="set-alarm-value" class="mpi3-margin-bottom" />
+			<div id="set-alarm-button" class="mpi3-button">Set alarm time</div>
 		</div>
-		<button id="stop-alarm">Stop alarm</button>
 
-		<div id="mpi3-alarm-music">
-			<select id="alarm-select-music">
+		<div class="mpi3-border mpi3-button" id="stop-alarm">
+			Stop alarm
+		</div>
+
+		<div id="mpi3-alarm-music" class="mpi3-border">
+			<select id="alarm-select-music" class="mpi3-margin-bottom">
 			</select>
-			<button id="alarm-select-music-button">Set music</button>
+			<div id="alarm-select-music-button" class="mpi3-button">Set music</div>
 		</div>
 	</form>
 	<script type="text/javascript">

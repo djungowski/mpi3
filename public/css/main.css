@@ -1,13 +1,37 @@
 body {
 	font-size: 15px;
+	background-color: rgb(6, 30, 54);
+	color: #fff;
+	font-family: verdana, helvetica, sans-serif;
+}
+
+p {
+	margin: 0;
+}
+
+.mpi3-border {
+	padding: 6px;
+	margin-bottom: 25px;
+	background-color: rgb(122, 108, 72);
+}
+
+.mpi3-button {
+	padding: 6px;
+	text-align: center;
+	cursor: pointer;
+	background-color: rgb(62, 88, 7);
+}
+
+.mpi3-margin-bottom {
+	margin-bottom: 15px;
 }
 
 input, button, select {
 	display: block;
 	padding: 6px;
 	font-size: 15px;
-	margin-bottom: 25px;
 	width: 100%;
+	border: 1px solid #000;
 }
 
 input {
