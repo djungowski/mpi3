@@ -5,27 +5,25 @@ import json
 class ThreadAlarm(threading.Thread):
 	__alarm = None
 	__logging = None
-	__wakeupTime = None
-	__wakeupMusic = None
 	__queue = None
+	__collection = None
 
-	def __init__(self, name, wakeupTime, wakeupMusic, queue, logging):
+	def __init__(self, name, queue, logging):
 		threading.Thread.__init__(self, name=name)
-		self.__wakeupTime = wakeupTime
-		self.__wakeupMusic = wakeupMusic
 		self.__logging = logging
 		self.__queue = queue
 
 	def alarm(self):
 		return self.__alarm
+	
+	def setCollection(self,collection):
+		self.__collection = collection;
 
 	def queue(self):
 		return self.__queue
 
 	def run(self):
 		self.alarm = alarm.Alarm(self.__logging)
-		self.alarm.setWakeupTime(self.__wakeupTime)
-		self.alarm.setWakeupMusic(self.__wakeupMusic)
 		self.__logging.info('Alarm ready')
 		self.alarm.run()
 
@@ -45,7 +43,10 @@ class ThreadAlarm(threading.Thread):
 			self.alarm.stop()
 			pushData = {"target":"web","type":"message","value":"Alarm stopped"}
 		elif (type == "wakeupMusic"):
-			self.alarm.setWakeupMusic(workload.get("value"))
+			key = int(workload.get("value"))
+			music = self.__collection.get(key)
+			musicFile = music[0] + '/' + music[1]
+			self.alarm.setWakeupMusic(musicFile)
 			pushData = {"target":"web","type":"message","value":"New alarm music set"}
 		
 		self.__queue.put(json.dumps(pushData))

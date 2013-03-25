@@ -2,17 +2,14 @@ body {
 	font-size: 15px;
 }
 
-input, button {
+input, button, select {
 	display: block;
 	padding: 6px;
 	font-size: 15px;
 	margin-bottom: 25px;
+	width: 100%;
 }
 
 input {
 	width: 98%;
-}
-
-button {
-	width: 100%;
 }

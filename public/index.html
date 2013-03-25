@@ -10,18 +10,52 @@
 <body>
 	<h1>mpi3 - Alarm Control</h1>
 	<form action="" method="get" id="alarmcontrol">
-		<input type="text" id="set-alarm-value" />
-		<button id="set-alarm-button">Set alarm time</button>
+		<div id="mpi3-alarm-time">
+			<b>Set alarm time:</b>
+			<input type="text" id="set-alarm-value" />
+			<button id="set-alarm-button">Set alarm time</button>
+		</div>
 		<button id="stop-alarm">Stop alarm</button>
+
+		<div id="mpi3-alarm-music">
+			<select id="alarm-select-music">
+			</select>
+			<button id="alarm-select-music-button">Select music</button>
+		</div>
 	</form>
 	<script type="text/javascript">
 	var ws = new WebSocket('ws://' + window.location.hostname + '/websocket');
 	ws.onmessage = function(data) {
 		message = JSON.parse(data.data);
-		if (message.type == "message") {
-			alert(message.value);
+		switch(message.type) {
+			case "message":
+				alert(message.value);
+				break;
+				
+			case "collection.list":
+				var alarmMusicSelect = $('#alarm-select-music');
+				for (var key in message.data) {
+					var track = message.data[key];
+					var option = $('<option value="' + key + '">' + track[1] + '</option>');
+					alarmMusicSelect.append(option);
+				}
+				break;
 		}
+	};
+
+	ws.onclose = function(data) {
+		alert('Connection lost. Please refresh webpage');
+	};
+	
+	// Get collection
+	ws.onopen = function() {
+		var pushData = {
+			target: "web",
+			type: "collection.list"
+		};
+		ws.send(JSON.stringify(pushData));
 	}
+
 	$('#alarmcontrol').alarmcontrol({
 		socket: ws
 	});

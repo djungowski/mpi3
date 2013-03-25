@@ -28,17 +28,18 @@ collection = music.Music(musicPaths)
 collection.scan()
 logging.info('Scanning finished. Found ' +  str(collection.count()) + ' items')
 
-wakeupTime = sys.argv[1]
-wakeupMusic = sys.argv[2]
+#wakeupTime = sys.argv[1]
+#wakeupMusic = sys.argv[2]
 
-if (os.path.isfile(wakeupMusic) == False):
-	print 'The file "' + wakeupMusic + '" does not exist'
-	sys.exit()
+#if (os.path.isfile(wakeupMusic) == False):
+#	print 'The file "' + wakeupMusic + '" does not exist'
+#	sys.exit()
 
 queue = Queue.Queue()
 
 logging.info('Starting alarm')
-threadAlarm = threadalarm.ThreadAlarm("alarm", wakeupTime, wakeupMusic, queue, logging)
+threadAlarm = threadalarm.ThreadAlarm("alarm", queue, logging)
+threadAlarm.setCollection(collection)
 threadAlarm.start()
 
 logging.info('Starting web interface')

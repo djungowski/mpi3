@@ -24,6 +24,16 @@
 			};
 			options.socket.send(JSON.stringify(socketData));
 		});
+
+		me.find('#alarm-select-music-button').on('click', function(event) {
+			var music = me.find('#alarm-select-music').val();
+			var socketData = {
+				target: 'alarm',
+				type: 'wakeupMusic',
+				value: music
+			};
+			options.socket.send(JSON.stringify(socketData));
+		});
 	};
 
 	jQuery.fn.alarmcontrol.options = {
