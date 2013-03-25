@@ -23,7 +23,9 @@ If you want to run mp3i in the debug mode you can do so by running
 
 	sudo ./mpi3.py --debug
 
-Don't forget to run the command in a screen :-) (daemon will come someday)
+If you want to run mpi3 as daemon
+
+	sudo ./mpi3.py -d
 
 Web Interface
 ============

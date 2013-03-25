@@ -10,7 +10,7 @@ import ConfigParser
 from scan import music
 
 # Set up logger
-if "--debug" in sys.argv or "-d" in sys.argv:
+if "--debug" in sys.argv in sys.argv:
 	loglevel = logging.DEBUG
 else:
 	loglevel = logging.INFO
@@ -20,6 +20,17 @@ logging.basicConfig(level=loglevel)
 logging.debug('Reading config')
 config = ConfigParser.ConfigParser()
 config.read(os.getcwd() + "/config.ini")
+
+daemon = 0
+
+if "-d" in sys.argv:
+	fpid = os.fork()
+	if fpid != 0:
+		logging.info('Running as daemon');
+		pidfile = open(config.get('general', 'pid'), 'w')
+		pidfile.write(str(fpid))
+		# Running as daemon now. PID is fpid
+		sys.exit(0)
 
 musicPaths = config.items("paths")
 logging.info('Scanning music collection')
