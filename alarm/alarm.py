@@ -63,6 +63,11 @@ class Alarm:
 		self.__player.stop()
 		self.__alarmTriggered = False
 
+	def shutdown(self):
+		self.__alarmTriggered = False
+		self.__run = False
+		self.__player.quit()
+
 	def __loop(self):
 		currentTime = time.strftime('%H:%M')
 		if (currentTime == self.__wakeupTime and self.__alarmTriggered == False):

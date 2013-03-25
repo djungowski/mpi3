@@ -58,12 +58,9 @@ threadQueue = threadqueue.ThreadQueue("ThreadQueue", queue, workerThreads, loggi
 threadQueue.start()
 
 def signal_handler(signal, frame):
-	print 'Alarm stopped'
-	threadAlarm.stopAlarm()
+	logging.info('Shutting down alarm')
+	threadAlarm.shutdown()
 signal.signal(signal.SIGINT, signal_handler)
-
-print '+++'
-print 'Press Ctrl+C to stop alarm when active'
-print '+++'
+signal.signal(signal.SIGTERM, signal_handler)
 
 signal.pause()
