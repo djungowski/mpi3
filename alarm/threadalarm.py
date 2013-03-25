@@ -47,8 +47,7 @@ class ThreadAlarm(threading.Thread):
 		elif (type == "wakeupMusic"):
 			key = int(workload.get("value"))
 			music = self.__collection.get(key)
-			musicFile = music[0] + '/' + music[1]
-			self.alarm.setWakeupMusic(musicFile)
+			self.alarm.setWakeupMusic(music)
 			pushData = {"target":"web","type":"message","value":"New alarm music set"}
 			self.__pushAlarmSettings()
 		elif (type == "alarm.settings"):

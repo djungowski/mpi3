@@ -22,10 +22,13 @@ class Alarm:
 
 	def setWakeupMusic(self, music):
 		self.__wakeupMusic = music
-		self.__logging.info('Waking you up with: ' + music)
+		self.__logging.info('Waking you up with: ' + self.getWakeupMusicFile())
+	
+	def getWakeupMusicFile(self):
+		return self.__wakeupMusic[0] + '/' + self.__wakeupMusic[1]
 
 	def isWakeupMusicPlaylist(self):
-		return (re.search('(pls|m3u)$', self.__wakeupMusic) != None)
+		return (re.search('(pls|m3u)$', self.getWakeupMusicFile()) != None)
 	
 	def getSettings(self):
 		return {
@@ -34,12 +37,13 @@ class Alarm:
 		}
 	
 	def start(self):
+		music = self.getWakeupMusicFile() 
 		if (self.isWakeupMusicPlaylist()):
-			self.__player.loadlist(self.__wakeupMusic)
+			self.__player.loadlist(music)
 		else:
-			self.__player.loadfile(self.__wakeupMusic)
+			self.__player.loadfile(music)
 		
-		self.__logging.info('Playing ' + self.__wakeupMusic)
+		self.__logging.info('Playing ' + music)
 		self.__fadein()
 	
 	def __fadein(self):

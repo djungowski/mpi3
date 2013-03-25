@@ -30,7 +30,7 @@
 		<div id="mpi3-alarm-music">
 			<select id="alarm-select-music">
 			</select>
-			<button id="alarm-select-music-button">Select music</button>
+			<button id="alarm-select-music-button">Set music</button>
 		</div>
 	</form>
 	<script type="text/javascript">
@@ -52,9 +52,13 @@
 				break;
 
 			case "alarm.settings":
-				$('#mpi3-alarm-current-time').text(message.time);
-				$('#mpi3-alarm-current-music').text(message.music);
-				$('#set-alarm-value').val(message.time);
+				if (message.time != null) {
+					$('#mpi3-alarm-current-time').text(message.time);
+					$('#set-alarm-value').val(message.time);
+				}
+				if (message.music != null) {
+					$('#mpi3-alarm-current-music').text(message.music[1]);
+				}
 		}
 	};
 
