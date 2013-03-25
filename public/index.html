@@ -37,7 +37,11 @@
 		</div>
 	</form>
 	<script type="text/javascript">
-	var ws = new WebSocket('ws://' + window.location.hostname + '/websocket');
+	var hostname = window.location.hostname;
+	if (window.location.port != "") {
+		hostname += ':' + window.location.port;
+	}
+	var ws = new WebSocket('ws://' + hostname + '/websocket');
 	ws.onmessage = function(data) {
 		message = JSON.parse(data.data);
 		switch(message.type) {

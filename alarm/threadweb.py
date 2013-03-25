@@ -31,11 +31,13 @@ class ThreadWeb(threading.Thread):
 	__queue = None
 	__collection = None
 	__listeners = {}
+	__port = None
 
-	def __init__(self, name, queue, logging):
+	def __init__(self, name, port, queue, logging):
 		threading.Thread.__init__(self, name=name)
 		self.__logging = logging
 		self.__queue = queue
+		self.__port = port
 		self.__listeners = {
 			"message": WebSocketListener(),
 			"alarm.settings": WebSocketListener()
@@ -51,8 +53,8 @@ class ThreadWeb(threading.Thread):
 			(r"/(.*)", web.StaticFileHandler, {"path": os.getcwd() + "/public/"}),
 		])
 
-		webapp.listen(80)
-		self.__logging.info('Web interface up and running')
+		webapp.listen(self.__port)
+		self.__logging.info('Web interface up and running on port ' + str(self.__port))
 		ioloop.IOLoop.instance().start()
 	
 	# Receive message from queue
