@@ -13,21 +13,17 @@ Installation is quite easy
 This installs the dependencies like mplayer. Since sudo commands are used your user needs root privileges.
 
 
-Usage
-=====
-So far only alarm functionality is implemented and right now you need to give a time and audiofile/playlist when starting. Since the webinterface listens on port 80 you need to run the pilarm as root
+Start mpi3
+=========
+Since the webinterface listens on port 80 you need to run the pilarm as root. If you want to change the http port you can do so in the config.ini in the http section
 
-	sudo ./mpi3.py <time> <audiofile/playlist>
+	sudo ./mpi3.py
 
-Example 1: You want to be woken up at 10:15
+If you want to run mp3i in the debug mode you can do so by running
 
-	sudo ./mpi3.py 10:15 ~/mp3/somefile.mp3
+	sudo ./mpi3.py --debug
 
-Example 2: You want to be woken up at 08:00 with a playlist
-
-	sudo ./mpi3.py 08:00 ~/mp3/someplaylist.m3u
-
-Don't forget to run the commands in a screen :-)
+Don't forget to run the command in a screen :-) (daemon will come someday)
 
 Web Interface
 ============
