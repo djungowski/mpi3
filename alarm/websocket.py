@@ -12,14 +12,12 @@ class WebSocket(websocket.WebSocketHandler):
 
 	def open(self):
 		WebSocket.connections.append(self)
-		print WebSocket.connections
 
 	def on_message(self, message):
 		self.__queue.put(message)
 
 	def on_close(self):
 		WebSocket.connections.remove(self)
-		print WebSocket.connections
 
 	def send(self, message):
 		for connection in self.connections:
