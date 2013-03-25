@@ -27,6 +27,12 @@ class Alarm:
 	def isWakeupMusicPlaylist(self):
 		return (re.search('(pls|m3u)$', self.__wakeupMusic) != None)
 	
+	def getSettings(self):
+		return {
+			"time":self.__wakeupTime,
+			"music":self.__wakeupMusic
+		}
+	
 	def start(self):
 		if (self.isWakeupMusicPlaylist()):
 			self.__player.loadlist(self.__wakeupMusic)

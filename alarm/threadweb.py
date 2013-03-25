@@ -37,7 +37,8 @@ class ThreadWeb(threading.Thread):
 		self.__logging = logging
 		self.__queue = queue
 		self.__listeners = {
-			"message": WebSocketListener()
+			"message": WebSocketListener(),
+			"alarm.settings": WebSocketListener()
 		}
 
 	def queue(self):
@@ -60,9 +61,12 @@ class ThreadWeb(threading.Thread):
 		self.__logging.debug(workload)
 
 		type = workload.get("type")
+		# @TODO: This needs to be automated!
 		if (type == "collection.list"):
 			self.__listeners.get("collection").list()
 		elif (type == "message"):
+			self.__listeners.get("message").send(workload)
+		elif (type == "alarm.settings"):
 			self.__listeners.get("message").send(workload)
 		
 	def setCollection(self, collection):

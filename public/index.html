@@ -9,6 +9,16 @@
 </head>
 <body>
 	<h1>mpi3 - Alarm Control</h1>
+	<div id="mpi3-alarm-current">
+		<p>
+			<b>Current time:</b>
+			<span id="mpi3-alarm-current-time"></span>
+		</p>
+		<p>
+			<b>Current music:</b>
+			<span id="mpi3-alarm-current-music"></span>
+		</p>
+	</div>
 	<form action="" method="get" id="alarmcontrol">
 		<div id="mpi3-alarm-time">
 			<b>Set alarm time:</b>
@@ -40,6 +50,10 @@
 					alarmMusicSelect.append(option);
 				}
 				break;
+
+			case "alarm.settings":
+				$('#mpi3-alarm-current-time').text(message.time);
+				$('#mpi3-alarm-current-music').text(message.music);
 		}
 	};
 
@@ -52,6 +66,12 @@
 		var pushData = {
 			target: "web",
 			type: "collection.list"
+		};
+		ws.send(JSON.stringify(pushData));
+
+		pushData = {
+			target: "alarm",
+			type: 'alarm.settings'
 		};
 		ws.send(JSON.stringify(pushData));
 	}

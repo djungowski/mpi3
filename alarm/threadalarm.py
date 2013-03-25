@@ -35,10 +35,12 @@ class ThreadAlarm(threading.Thread):
 		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
 		self.__logging.debug(workload)
 
+		pushData = None
 		type = workload.get("type")
 		if (type == "wakeupTime"):
 			self.alarm.setWakeupTime(workload.get("value"))
 			pushData = {"target":"web","type":"message","value":"New alarm time set"}
+			self.__pushAlarmSettings()
 		elif (type == "stop"):
 			self.alarm.stop()
 			pushData = {"target":"web","type":"message","value":"Alarm stopped"}
@@ -48,5 +50,15 @@ class ThreadAlarm(threading.Thread):
 			musicFile = music[0] + '/' + music[1]
 			self.alarm.setWakeupMusic(musicFile)
 			pushData = {"target":"web","type":"message","value":"New alarm music set"}
-		
+			self.__pushAlarmSettings()
+		elif (type == "alarm.settings"):
+			self.__pushAlarmSettings()
+
+		if (pushData != None):
+			self.__queue.put(json.dumps(pushData))
+	
+	def __pushAlarmSettings(self):
+		pushData = self.alarm.getSettings()
+		pushData["target"] = "web"
+		pushData["type"] = "alarm.settings"
 		self.__queue.put(json.dumps(pushData))
