@@ -1,3 +1,15 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          Controls the mpi3 daemon
+# Required-Start:    
+# Required-Stop:     
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Controls the mpi3 daemon
+# Description:       Controls the mpi3 daemon
+### END INIT INFO
+# Author: Dominik Jungowski <Dominik@Jungowski.de>
+
 . /lib/lsb/init-functions
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/home/pi/mpi3
