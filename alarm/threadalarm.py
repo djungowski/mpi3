@@ -39,7 +39,6 @@ class ThreadAlarm(threading.Thread):
 		type = workload.get("type")
 		if (type == "wakeupTime"):
 			self.alarm.setWakeupTime(workload.get("value"))
-			pushData = {"target":"web","type":"message","value":"New alarm time set"}
 			self.__pushAlarmSettings()
 		elif (type == "stop"):
 			self.alarm.stop()
@@ -48,7 +47,6 @@ class ThreadAlarm(threading.Thread):
 			key = int(workload.get("value"))
 			music = self.__collection.get(key)
 			self.alarm.setWakeupMusic(music)
-			pushData = {"target":"web","type":"message","value":"New alarm music set"}
 			self.__pushAlarmSettings()
 		elif (type == "alarm.settings"):
 			self.__pushAlarmSettings()
