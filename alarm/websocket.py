@@ -2,6 +2,7 @@ from tornado import websocket
 import json
 
 class WebSocket(websocket.WebSocketHandler):
+	connections = []
 	__queue = None
 
 	def initialize(self, queue, listeners):
@@ -10,13 +11,16 @@ class WebSocket(websocket.WebSocketHandler):
 			listeners[key].setSocket(self)
 
 	def open(self):
-		print "WebSocket opened"
+		WebSocket.connections.append(self)
+		print WebSocket.connections
 
 	def on_message(self, message):
 		self.__queue.put(message)
 
 	def on_close(self):
-		print "WebSocket closed"
+		WebSocket.connections.remove(self)
+		print WebSocket.connections
 
 	def send(self, message):
-		self.write_message(message)
+		for connection in self.connections:
+			connection.write_message(message)
