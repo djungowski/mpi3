@@ -10,6 +10,7 @@ class Alarm:
 	__isPlaylist = False
 	__alarmTriggered = False
 	__run = True
+	__startVolume = 10
 
 	def __init__(self, logging):
 		self.__logging = logging
@@ -47,7 +48,7 @@ class Alarm:
 		self.__fadein()
 	
 	def __fadein(self):
-		volume=10
+		volume=self.__startVolume
 		stepsize=2
 		steps=(100-volume)/stepsize
 		for i in range(steps):
@@ -61,6 +62,7 @@ class Alarm:
 	
 	def stop(self):
 		self.__player.stop()
+		self.__player.volume = self.__startVolume
 		self.__alarmTriggered = False
 
 	def shutdown(self):
