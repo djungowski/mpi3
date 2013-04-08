@@ -7,11 +7,13 @@ class ThreadAlarm(threading.Thread):
 	__logging = None
 	__queue = None
 	__collection = None
+	__player = None
 
-	def __init__(self, name, queue, logging):
+	def __init__(self, name, player, queue, logging):
 		threading.Thread.__init__(self, name=name)
 		self.__logging = logging
 		self.__queue = queue
+		self.__player = player
 
 	def alarm(self):
 		return self.__alarm
@@ -23,7 +25,7 @@ class ThreadAlarm(threading.Thread):
 		return self.__queue
 
 	def run(self):
-		self.alarm = alarm.Alarm(self.__logging)
+		self.alarm = alarm.Alarm(self.__player, self.__logging)
 		self.__logging.info('Alarm ready')
 		self.alarm.run()
 

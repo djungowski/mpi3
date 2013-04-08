@@ -3,11 +3,12 @@
 import os
 import sys
 import logging
-from alarm import threadalarm, threadweb, threadqueue
+from alarm import threadalarm, threadweb, threadqueue, player
 import signal
 import Queue
 import ConfigParser
 from scan import music
+from mplayer.async import AsyncPlayer
 
 # Set up logger
 if "--debug" in sys.argv in sys.argv:
@@ -41,8 +42,11 @@ logging.info('Scanning finished. Found ' +  str(collection.count()) + ' items')
 
 queue = Queue.Queue()
 
+logging.info('Starting player');
+player = player.Player(logging)
+
 logging.info('Starting alarm')
-threadAlarm = threadalarm.ThreadAlarm("alarm", queue, logging)
+threadAlarm = threadalarm.ThreadAlarm("alarm", player, queue, logging)
 threadAlarm.setCollection(collection)
 threadAlarm.start()
 

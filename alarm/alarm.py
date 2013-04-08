@@ -1,6 +1,4 @@
-import re
 import time
-from mplayer.async import AsyncPlayer
 
 class Alarm:
 	__player = None
@@ -12,10 +10,12 @@ class Alarm:
 	__run = True
 	__startVolume = 10
 
-	def __init__(self, logging):
+	def __init__(self, player, logging):
 		self.__logging = logging
-		self.__player = AsyncPlayer()
-		self.__player.loop = 0
+		#self.__player = AsyncPlayer()
+		self.__player = player
+		# Loop indefinitely
+		self.__player.repeat(0)
 
 	def setWakeupTime(self, wakeupTime):
 		self.__wakeupTime = wakeupTime
@@ -27,9 +27,6 @@ class Alarm:
 	
 	def getWakeupMusicFile(self):
 		return self.__wakeupMusic[0] + '/' + self.__wakeupMusic[1]
-
-	def isWakeupMusicPlaylist(self):
-		return (re.search('(pls|m3u)$', self.getWakeupMusicFile()) != None)
 	
 	def getSettings(self):
 		return {
@@ -39,22 +36,7 @@ class Alarm:
 	
 	def start(self):
 		music = self.getWakeupMusicFile() 
-		if (self.isWakeupMusicPlaylist()):
-			self.__player.loadlist(music)
-		else:
-			self.__player.loadfile(music)
-		
-		self.__logging.info('Playing ' + music)
-		self.__fadein()
-	
-	def __fadein(self):
-		volume=self.__startVolume
-		stepsize=2
-		steps=(100-volume)/stepsize
-		for i in range(steps):
-			volume += stepsize
-			self.__player.volume = volume
-			time.sleep(1)
+		self.__player.fadein(music)
 
 	def run(self):
 		while self.__run:
@@ -62,7 +44,7 @@ class Alarm:
 	
 	def stop(self):
 		self.__player.stop()
-		self.__player.volume = self.__startVolume
+		#self.__player.volume = self.__startVolume
 		self.__alarmTriggered = False
 
 	def shutdown(self):
