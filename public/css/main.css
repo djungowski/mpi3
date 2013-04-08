@@ -22,6 +22,16 @@ p {
 	background-color: rgb(62, 88, 7);
 }
 
+.mpi3-music-control {
+	text-align: center;
+}
+
+.mpi3-music-control img {
+	cursor: pointer;
+	padding: 6px;
+	margin: 0 5px;
+}
+
 .mpi3-margin-bottom {
 	margin-bottom: 15px;
 }

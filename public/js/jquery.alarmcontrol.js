@@ -31,7 +31,7 @@
 		});
 
 		me.find('#alarm-select-music-button').on('click', function(event) {
-			var music = me.find('#alarm-select-music').val();
+			var music = me.find('.mpi3-select-music').val();
 			var socketData = {
 				target: 'alarm',
 				type: 'wakeupMusic',

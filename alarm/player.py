@@ -6,9 +6,10 @@ class Player(AsyncPlayer):
 	__fadeStepsize = 2
 	__startVolume = 10
 	__logging = None
+	__playing = False
+	__paused = False
 
 	def __init__(self, logging):
-		#self.__player = AsyncPlayer();
 		AsyncPlayer.__init__(self, args=('-volume 10'))
 		self.__logging = logging
 
@@ -25,6 +26,29 @@ class Player(AsyncPlayer):
 			self.loadfile(filename)
 
 		self.__logging.info('Playing ' + filename)
+
+	def play(self, filename):
+		if (self.__paused):
+			self.pause()
+		else:
+			self.load(filename)
+			self.volume = 100
+			self.__playing = True
+
+	def stop(self):
+		# Unpause if paused otherwise music won't play when hitting play
+		if (self.__paused):
+			self.pause()
+		AsyncPlayer.stop(self)
+
+	def pause(self):
+		if (self.__playing):
+			AsyncPlayer.pause(self)
+			# Always change the paused state
+			if (self.__paused):
+				self.__paused = False
+			else:
+				self.__paused = True
 
 	def fadein(self, filename):
 		# Start music

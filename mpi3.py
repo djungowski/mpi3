@@ -3,7 +3,7 @@
 import os
 import sys
 import logging
-from alarm import threadalarm, threadweb, threadqueue, player
+from alarm import threadalarm, threadweb, threadqueue, player, threadplayer
 import signal
 import Queue
 import ConfigParser
@@ -44,6 +44,8 @@ queue = Queue.Queue()
 
 logging.info('Starting player');
 player = player.Player(logging)
+threadPlayer = threadplayer.ThreadPlayer("player", player, collection, queue, logging)
+threadPlayer.start()
 
 logging.info('Starting alarm')
 threadAlarm = threadalarm.ThreadAlarm("alarm", player, queue, logging)
@@ -57,7 +59,7 @@ threadWeb.setCollection(collection)
 threadWeb.start()
 
 logging.debug('Starting queue')
-workerThreads = {threadAlarm.getName(): threadAlarm, threadWeb.getName(): threadWeb}
+workerThreads = {threadAlarm.getName(): threadAlarm, threadWeb.getName(): threadWeb, threadPlayer.getName(): threadPlayer}
 threadQueue = threadqueue.ThreadQueue("ThreadQueue", queue, workerThreads, logging)
 threadQueue.start()
 

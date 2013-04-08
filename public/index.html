@@ -4,6 +4,7 @@
 	<title>mpi3 - Raspberry Pi Music Player</title>
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.musiccontrol.js"></script>
 	<script type="text/javascript" src="/js/jquery.alarmcontrol.js"></script>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" />
 </head>
@@ -32,10 +33,16 @@
 			</div>
 		</div>
 
-		<div id="mpi3-alarm-music" class="mpi3-border">
-			<select id="alarm-select-music" class="mpi3-margin-bottom">
+		<div id="mpi3-music" class="mpi3-border">
+			<div class="mpi3-music-control">
+				<img class="mpi3-music-stop" src="img/stop.png" alt="Stop" />
+				<img class="mpi3-music-play" src="img/play.png" alt="Play" />
+				<img class="mpi3-music-pause" src="img/pause.png" alt="Pause" />
+ 			</div>
+
+			<select class="mpi3-select-music mpi3-margin-bottom">
 			</select>
-			<div id="alarm-select-music-button" class="mpi3-button">Set music</div>
+			<div id="alarm-select-music-button" class="mpi3-button">Set music as alarm</div>
 		</div>
 	</form>
 	<script type="text/javascript">
@@ -52,7 +59,7 @@
 				break;
 				
 			case "collection.list":
-				var alarmMusicSelect = $('#alarm-select-music');
+				var alarmMusicSelect = $('.mpi3-select-music');
 				for (var key in message.data) {
 					var track = message.data[key];
 					var option = $('<option value="' + key + '">' + track[1] + '</option>');
@@ -91,6 +98,10 @@
 	}
 
 	$('#alarmcontrol').alarmcontrol({
+		socket: ws
+	});
+
+	$('.mpi3-music-control').musiccontrol({
 		socket: ws
 	});
 	</script>
