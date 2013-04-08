@@ -2,34 +2,34 @@ import re
 import time
 from mplayer.async import AsyncPlayer
 
-class Player:
-	__player = None
+class Player(AsyncPlayer):
 	__fadeStepsize = 2
 	__startVolume = 10
 	__logging = None
 
 	def __init__(self, logging):
-		self.__player = AsyncPlayer();
+		#self.__player = AsyncPlayer();
+		AsyncPlayer.__init__(self)
 		self.__logging = logging
 
 	def repeat(self, howOften):
-		self.__player.loop = howOften
+		self.loop = howOften
 
 	def isFileAPlaylist(self, filename):
 		return (re.search('(pls|m3u)$', filename) != None)
 
 	def load(self, filename):
 		if (self.isFileAPlaylist(filename)):
-			self.__player.loadlist(filename)
+			self.loadlist(filename)
 		else:
-			self.__player.loadfile(filename)
+			self.loadfile(filename)
 
 		self.__logging.info('Playing ' + filename)
 
 	def fadein(self, filename):
 		# Start music
 		volume=self.__startVolume
-		self.__player.volume = volume
+		self.volume = volume
 		self.load(filename)
 
 		stepsize=self.__fadeStepsize		
@@ -37,11 +37,5 @@ class Player:
 
 		for i in range(steps):
 			volume += stepsize
-			self.__player.volume = volume
+			self.volume = volume
 			time.sleep(1)
-
-	def stop(self):
-		self.__player.stop()
-
-	def quit(self):
-		self.__player.quit()
