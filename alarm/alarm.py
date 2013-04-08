@@ -35,7 +35,7 @@ class Alarm:
 		}
 	
 	def start(self):
-		music = self.getWakeupMusicFile() 
+		music = self.getWakeupMusicFile()
 		self.__player.fadein(music)
 
 	def run(self):
@@ -44,7 +44,6 @@ class Alarm:
 	
 	def stop(self):
 		self.__player.stop()
-		#self.__player.volume = self.__startVolume
 		self.__alarmTriggered = False
 
 	def shutdown(self):

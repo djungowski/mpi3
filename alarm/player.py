@@ -9,7 +9,7 @@ class Player(AsyncPlayer):
 
 	def __init__(self, logging):
 		#self.__player = AsyncPlayer();
-		AsyncPlayer.__init__(self)
+		AsyncPlayer.__init__(self, args=('-volume 10'))
 		self.__logging = logging
 
 	def repeat(self, howOften):
