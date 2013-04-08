@@ -40,6 +40,7 @@ class Player(AsyncPlayer):
 		if (self.__paused):
 			self.pause()
 		AsyncPlayer.stop(self)
+		self.mute = True
 
 	def pause(self):
 		if (self.__playing):
