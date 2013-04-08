@@ -1,4 +1,5 @@
 import threading
+import json
 
 class ThreadPlayer(threading.Thread):
 	def __init__(self, name, player, collection, queue, logging):
@@ -23,5 +24,8 @@ class ThreadPlayer(threading.Thread):
 			self.__player.play(music)
 		elif (type == "stop"):
 			self.__player.stop()
+			# Also stop any alarms that could have been stopped by this
+			pushData = {"target":"alarm","type":"stop"}
+			self.__queue.put(json.dumps(pushData))
 		elif (type == "pause"):
 			self.__player.pause()

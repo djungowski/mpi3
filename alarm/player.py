@@ -10,7 +10,7 @@ class Player(AsyncPlayer):
 	__paused = False
 
 	def __init__(self, logging):
-		AsyncPlayer.__init__(self, args=('-volume 10'))
+		AsyncPlayer.__init__(self)
 		self.__logging = logging
 
 	def repeat(self, howOften):
@@ -54,6 +54,8 @@ class Player(AsyncPlayer):
 		# Start music
 		volume=self.__startVolume
 		self.volume = volume
+		# Mute so that there is no unwanted strange effect. self.load unmutes by itself
+		self.mute = True
 		self.load(filename)
 
 		stepsize=self.__fadeStepsize		

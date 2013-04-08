@@ -27,19 +27,13 @@
 			<div id="set-alarm-button" class="mpi3-button">Set alarm time</div>
 		</div>
 
-		<div class="mpi3-border">
-			<div class="mpi3-button" id="stop-alarm">
-				Stop alarm
-			</div>
+		<div class="mpi3-music-control mpi3-border">
+			<img class="mpi3-music-stop" src="img/stop.png" alt="Stop" />
+			<img class="mpi3-music-play" src="img/play.png" alt="Play" />
+			<img class="mpi3-music-pause" src="img/pause.png" alt="Pause" />
 		</div>
 
 		<div id="mpi3-music" class="mpi3-border">
-			<div class="mpi3-music-control">
-				<img class="mpi3-music-stop" src="img/stop.png" alt="Stop" />
-				<img class="mpi3-music-play" src="img/play.png" alt="Play" />
-				<img class="mpi3-music-pause" src="img/pause.png" alt="Pause" />
- 			</div>
-
 			<select class="mpi3-select-music mpi3-margin-bottom">
 			</select>
 			<div id="alarm-select-music-button" class="mpi3-button">Set music as alarm</div>
@@ -103,6 +97,14 @@
 
 	$('.mpi3-music-control').musiccontrol({
 		socket: ws
+	});
+
+	$('input').on('focus', function() {
+		$('.mpi3-music-control').hide(200);
+	});
+
+	$('input').on('blur', function() {
+		$('.mpi3-music-control').show(200);
 	});
 	</script>
 </body>

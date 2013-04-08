@@ -7,14 +7,6 @@
 			event.preventDefault()
 		});
 
-		me.find('#stop-alarm').on('click', function(event) {
-			var socketData = {
-				target: 'alarm',
-				type: 'stop'
-			};
-			options.socket.send(JSON.stringify(socketData));
-		});
-
 		me.find('#set-alarm-button').on('click', function(event) {
 			var alarmTime = me.find('#set-alarm-value').val();
 			var regexp = /^[0-9]{2}:[0-9]{2}$/;
