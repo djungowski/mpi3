@@ -11,7 +11,7 @@ from scan import music
 from mplayer.async import AsyncPlayer
 
 # Set up logger
-if "--debug" in sys.argv in sys.argv:
+if "--debug" in sys.argv:
 	loglevel = logging.DEBUG
 else:
 	loglevel = logging.INFO
