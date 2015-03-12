@@ -46,7 +46,9 @@ class ThreadAlarm(threading.Thread):
 			self.alarm.setWakeupTime(workload.get("value"))
 			self.__pushAlarmSettings()
 		elif (type == "stop"):
-			self.alarm.stop()
+			# Only stop alarm if it's not stopped by new music
+			if (workload.get("musicplaying") != True):
+				self.alarm.stop()
 			#pushData = {"target":"web","type":"message","value":"Alarm stopped"}
 		elif (type == "wakeupMusic"):
 			key = int(workload.get("value"))

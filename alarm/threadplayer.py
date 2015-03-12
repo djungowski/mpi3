@@ -16,16 +16,21 @@ class ThreadPlayer(threading.Thread):
 		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
 		self.__logging.debug(workload)
 
+		pushData = None
 		type = workload.get("type")
 		if (type == 'play'):
+			# First: stop any alarms that could have been stopped by this
+			pushData = {"target":"alarm","type":"stop","musicplaying":True}
 			key = int(workload.get("value"))
 			musicTuple = self.__collection.get(key)
 			music = musicTuple[0] + '/' + musicTuple[1]
 			self.__player.play(music)
 		elif (type == "stop"):
 			self.__player.stop()
-			# Also stop any alarms that could have been stopped by this
+			# First: stop any alarms that could have been stopped by this
 			pushData = {"target":"alarm","type":"stop"}
-			self.__queue.put(json.dumps(pushData))
 		elif (type == "pause"):
 			self.__player.pause()
+
+		if (pushData != None):
+			self.__queue.put(json.dumps(pushData))
