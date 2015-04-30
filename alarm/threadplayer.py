@@ -16,21 +16,29 @@ class ThreadPlayer(threading.Thread):
 		self.__logging.debug(self.getName() + ":Receiving Message from Queue")
 		self.__logging.debug(workload)
 
-		pushData = None
+		alarm_push_data = None
+		web_push_data = None
 		type = workload.get("type")
-		if (type == 'play'):
+		if type == 'play':
 			# First: stop any alarms that could have been stopped by this
-			pushData = {"target":"alarm","type":"stop","musicplaying":True}
+			alarm_push_data = {"target":"alarm","type":"stop","musicplaying":True}
+			web_push_data = {"target": "web", "type": "playback", "action": "play"}
 			key = int(workload.get("value"))
 			musicTuple = self.__collection.get(key)
 			music = musicTuple[0] + '/' + musicTuple[1]
 			self.__player.play(music)
-		elif (type == "stop"):
+		elif type == "stop":
 			self.__player.stop()
 			# First: stop any alarms that could have been stopped by this
-			pushData = {"target":"alarm","type":"stop"}
-		elif (type == "pause"):
+			alarm_push_data = {"target":"alarm","type":"stop"}
+			web_push_data = {"target": "web", "type": "playback", "action": "stop"}
+		elif type == "pause":
 			self.__player.pause()
+			web_push_data = {"target": "web", "type": "playback", "action": "pause"}
+		elif type == 'playback-status':
+			web_push_data = {"target": "web", "type": "playback", "action": self.__player.status()}
 
-		if (pushData != None):
-			self.__queue.put(json.dumps(pushData))
+		self.__queue.put(json.dumps(web_push_data))
+
+		if (alarm_push_data != None):
+			self.__queue.put(json.dumps(alarm_push_data))

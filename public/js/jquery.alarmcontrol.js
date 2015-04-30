@@ -7,7 +7,7 @@
 			event.preventDefault()
 		});
 
-		me.find('#set-alarm-button').on('click', function(event) {
+		var setAlarm = function() {
 			var alarmTime = me.find('#set-alarm-value').val();
 			var regexp = /^[0-9]{2}:[0-9]{2}$/;
 			if (alarmTime.search(regexp) == -1) {
@@ -20,7 +20,10 @@
 				value: alarmTime
 			};
 			options.socket.send(JSON.stringify(socketData));
-		});
+		};
+
+		me.find('#set-alarm-button').on('click', setAlarm);
+		me.on('submit', setAlarm);
 
 		me.find('#alarm-select-music-button').on('click', function(event) {
 			var music = me.find('.mpi3-select-music').val();

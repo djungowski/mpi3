@@ -1,9 +1,23 @@
 body {
 	font-size: 15px;
-	background-color: rgb(6, 30, 54);
-	color: #fff;
-	font-family: verdana, helvetica, sans-serif;
+	background: url(/img/background.jpg);
+	background-repeat: repeat;
+	color: rgb(255, 246, 224);
+	font-family: helvetica, arial, sans-serif;
 	padding-bottom: 40px;
+}
+
+h1 {
+	opacity: 0.9;
+	overflow: hidden;
+}
+
+h1 .headline-icon {
+	float: left;
+}
+
+h1 .headline-text {
+	float: right;
 }
 
 p {
@@ -13,14 +27,15 @@ p {
 .mpi3-border {
 	padding: 6px;
 	margin-bottom: 25px;
-	background-color: rgb(122, 108, 72);
+	background-color: rgb(76, 18, 89);
 }
 
 .mpi3-button {
 	padding: 6px;
 	text-align: center;
 	cursor: pointer;
-	background-color: rgb(62, 88, 7);
+	background-color: rgb(255, 246, 224);
+	color: rgb(76, 18, 89);
 }
 
 .mpi3-music-control {
@@ -39,6 +54,11 @@ p {
 	margin: 0 5px;
 }
 
+.mpi3-music-control img.active {
+	filter: invert(45%);
+	-webkit-filter: invert(45%);
+}
+
 .mpi3-margin-bottom {
 	margin-bottom: 15px;
 }
@@ -52,5 +72,10 @@ input, button, select {
 }
 
 input {
-	width: 96%;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+}
+
+input[type=text] {
+	width: calc(100% - 14px);
 }

@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>mpi3 - Raspberry Pi Music Player</title>
+	<title>mπ3</title>
 	<link rel="stylesheet" type="text/css" href="/css/main.css">
 	<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.musiccontrol.js"></script>
 	<script type="text/javascript" src="/js/jquery.alarmcontrol.js"></script>
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" />
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+    <meta charset="utf-8">
 </head>
 <body>
-	<h1>mpi3: Alarm Control</h1>
+	<h1 class="mpi3-border">
+        <img class="mpi3-clock headline-icon" src="img/clock.png" alt="Alarm Setup" />
+        <span class="headline-text">mπ3</span>
+    </h1>
 	<div id="mpi3-alarm-current" class="mpi3-border">
 		<p>
 			<b>Current time:</b>
@@ -24,7 +29,7 @@
 		<div id="mpi3-alarm-time" class="mpi3-border">
 			<b>Set alarm time:</b>
 			<input type="text" id="set-alarm-value" class="mpi3-margin-bottom" />
-			<div id="set-alarm-button" class="mpi3-button">Set alarm time</div>
+			<input id="set-alarm-button" class="mpi3-button" value="Set alarm time" type="submit">
 		</div>
 
 		<div class="mpi3-music-control mpi3-border">
@@ -69,6 +74,13 @@
 				if (message.music != null) {
 					$('#mpi3-alarm-current-music').text(message.music[1]);
 				}
+                break;
+
+            case "playback":
+                // First: Remove all active states
+                // Now set the correct one
+                $('.mpi3-music-control img').removeClass('active');
+                $('.mpi3-music-' + message.action).addClass('active');
 		}
 	};
 
@@ -79,17 +91,23 @@
 	// Get collection
 	ws.onopen = function() {
 		var pushData = {
-			target: "web",
-			type: "collection.list"
+			target: 'web',
+			type: 'collection.list'
 		};
 		ws.send(JSON.stringify(pushData));
 
 		pushData = {
-			target: "alarm",
+			target: 'alarm',
 			type: 'alarm.settings'
 		};
 		ws.send(JSON.stringify(pushData));
-	}
+
+        pushData = {
+            target: 'player',
+            type: 'playback-status'
+        };
+        ws.send(JSON.stringify(pushData));
+	};
 
 	$('#alarmcontrol').alarmcontrol({
 		socket: ws
@@ -99,12 +117,21 @@
 		socket: ws
 	});
 
-	$('input').on('focus', function() {
-		$('.mpi3-music-control').hide(200);
+    allTextFields = $('input[type=text]')
+	allTextFields.on('focus', function() {
+		$('.mpi3-music-control').hide({
+            effect: 'slide',
+            direction: 'down',
+            duration: 200
+        });
 	});
 
-	$('input').on('blur', function() {
-		$('.mpi3-music-control').show(200);
+	allTextFields.on('blur', function() {
+		$('.mpi3-music-control').show({
+            effect: 'slide',
+            direction: 'down',
+            duration: 200
+        });
 	});
 	</script>
 </body>
