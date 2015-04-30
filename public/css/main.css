@@ -1,6 +1,7 @@
 body {
 	font-size: 15px;
-	background-color: rgb(6, 30, 54);
+	background: url(/img/background.jpg);
+	background-repeat: repeat;
 	color: #fff;
 	font-family: verdana, helvetica, sans-serif;
 	padding-bottom: 40px;
