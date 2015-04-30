@@ -23,6 +23,7 @@ class Player:
 		self.loop = howOften
 
 	def fadein(self, filename):
+		self.__status = 'play'
 		self.__logging.info('[Player Mock] Fading in ' + filename)
 
 	def quit(self):
