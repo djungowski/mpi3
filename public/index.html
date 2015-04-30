@@ -91,17 +91,23 @@
 	// Get collection
 	ws.onopen = function() {
 		var pushData = {
-			target: "web",
-			type: "collection.list"
+			target: 'web',
+			type: 'collection.list'
 		};
 		ws.send(JSON.stringify(pushData));
 
 		pushData = {
-			target: "alarm",
+			target: 'alarm',
 			type: 'alarm.settings'
 		};
 		ws.send(JSON.stringify(pushData));
-	}
+
+        pushData = {
+            target: 'player',
+            type: 'playback-status'
+        };
+        ws.send(JSON.stringify(pushData));
+	};
 
 	$('#alarmcontrol').alarmcontrol({
 		socket: ws

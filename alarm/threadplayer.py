@@ -35,6 +35,8 @@ class ThreadPlayer(threading.Thread):
 		elif type == "pause":
 			self.__player.pause()
 			web_push_data = {"target": "web", "type": "playback", "action": "pause"}
+		elif type == 'playback-status':
+			web_push_data = {"target": "web", "type": "playback", "action": self.__player.status()}
 
 		self.__queue.put(json.dumps(web_push_data))
 
