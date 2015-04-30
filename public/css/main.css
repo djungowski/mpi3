@@ -8,8 +8,16 @@ body {
 }
 
 h1 {
-	text-align: right;
-	opacity: 0.8;
+	opacity: 0.9;
+	overflow: hidden;
+}
+
+h1 .headline-icon {
+	float: left;
+}
+
+h1 .headline-text {
+	float: right;
 }
 
 p {
