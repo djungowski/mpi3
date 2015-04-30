@@ -101,7 +101,8 @@
 		socket: ws
 	});
 
-	$('input').on('focus', function() {
+    allTextFields = $('input[type=text]')
+	allTextFields.on('focus', function() {
 		$('.mpi3-music-control').hide({
             effect: 'slide',
             direction: 'down',
@@ -109,7 +110,7 @@
         });
 	});
 
-	$('input').on('blur', function() {
+	allTextFields.on('blur', function() {
 		$('.mpi3-music-control').show({
             effect: 'slide',
             direction: 'down',
