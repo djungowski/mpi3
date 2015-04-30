@@ -12,6 +12,7 @@ class Music:
 	def scan(self):
 		for key, path in self.__paths:
 			self.__walkFolder(path)
+		self.__sortList()
 	
 	def __walkFolder(self, folder):
 		items = os.listdir(folder)
@@ -24,7 +25,13 @@ class Music:
 			self.__walkFolder(file)
 		else:
 			if self.isSupportedFile(filename):
-				self.__music.append((folder, filename))	
+				self.__music.append((folder, filename))
+
+	def __sortList(self):
+		def getSortKey(item):
+			return item[1]
+
+		self.__music = sorted(self.__music, key=getSortKey)
 
 	def isSupportedFile(self, file):
 		supportedFiles = "|".join(self.__supportedFiles)

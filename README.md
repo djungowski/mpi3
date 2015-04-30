@@ -36,7 +36,7 @@ Again, root privileges are required (see installation)
 
 Web Interface
 ============
-pilarm comes with a (so far very basic) web interface which lets you control the alarm. If your Raspberry Pi's ip adress is 192.168.1.9, you can reach the web interface at
+mpi3 comes with a (so far very basic) web interface which lets you control the alarm. If your Raspberry Pi's ip adress is 192.168.1.9, you can reach the web interface at
 
 	http://192.168.1.9
 	
