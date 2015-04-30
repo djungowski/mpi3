@@ -13,7 +13,7 @@ class Music:
 		for key, path in self.__paths:
 			self.__walkFolder(path)
 		self.__sortList()
-	
+
 	def __walkFolder(self, folder):
 		items = os.listdir(folder)
 		for filename in items:
