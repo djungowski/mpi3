@@ -54,6 +54,11 @@ p {
 	margin: 0 5px;
 }
 
+.mpi3-music-control img.active {
+	filter: invert(45%);
+	-webkit-filter: invert(45%);
+}
+
 .mpi3-margin-bottom {
 	margin-bottom: 15px;
 }

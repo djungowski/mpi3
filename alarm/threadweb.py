@@ -63,12 +63,9 @@ class ThreadWeb(threading.Thread):
 		self.__logging.debug(workload)
 
 		type = workload.get("type")
-		# @TODO: This needs to be automated!
-		if (type == "collection.list"):
+		if type == "collection.list":
 			self.__listeners.get("collection").list()
-		elif (type == "message"):
-			self.__listeners.get("message").send(workload)
-		elif (type == "alarm.settings"):
+		else:
 			self.__listeners.get("message").send(workload)
 		
 	def setCollection(self, collection):
