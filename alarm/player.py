@@ -60,6 +60,7 @@ class Player(AsyncPlayer):
 		return self.__status
 
 	def fadein(self, filename):
+		self.__status = 'play'
 		# Start music
 		volume=self.__startVolume
 		self.volume = volume
