@@ -23,7 +23,7 @@ If you want to run mpi3 in the debug mode you can do so by running
 
 	sudo ./mpi3.py --debug
 	
-If you want to run mpi3 with a mocked player (in case you can't use mplayer):
+If you want to run mpi3 with a mocked player (in case you can't use mplayer - this should be used for development only):
 
 	sudo ./mpi3.py --mock-player
 
