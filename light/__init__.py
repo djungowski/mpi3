@@ -31,8 +31,8 @@ class Light:
 		self.__logging.info('Fadeing in light')
 		for i in range(self.__leds):
 			led_offset = i * 3
-			self.__logging.debug('Activating LED #' + (i + 1))
-			self.__logging.debug('LED Byte Offset: ' + led_offset)
+			self.__logging.debug('Activating LED #' + str((i + 1)))
+			self.__logging.debug('LED Byte Offset: ' + str(led_offset))
 
 			red = led_offset
 			green = led_offset + 1
