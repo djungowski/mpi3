@@ -78,6 +78,7 @@ def signal_handler(signal, frame):
 	logging.info('Shutting down alarm')
 	threadAlarm.shutdown()
 	light.shutdown()
+	os._exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
