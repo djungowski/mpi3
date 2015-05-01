@@ -6,8 +6,10 @@ class Light:
 	__buffer = None
 	__spidev = None
 	__stepsize = 36
+	__logging = None
 
-	def __init__(self):
+	def __init__(self, logging):
+		self.__logging = logging
 		self.__channels = self.__leds * 3  # Each LED has 3 bythes for rgb
 		self.__buffer = bytearray(self.__channels)
 		self.__spidev = file("/dev/spidev0.0", "wb")
@@ -26,8 +28,12 @@ class Light:
 		time.sleep(0.0005)
 
 	def fadein(self):
+		self.__logging.info('Fadeing in light')
 		for i in range(self.__leds):
 			led_offset = i * 3
+			self.__logging.debug('Activating LED #' + (i + 1))
+			self.__logging.debug('LED Byte Offset: ' + led_offset)
+
 			red = led_offset
 			green = led_offset + 1
 			blue = led_offset + 2
@@ -37,3 +43,6 @@ class Light:
 			self.__flush_buffer()
 			time.sleep(self.__stepsize)
 
+	def shutdown(self):
+		self.__logging.info('Shutting down light')
+		self.__init_buffer()

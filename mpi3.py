@@ -3,19 +3,21 @@
 import os
 import sys
 import logging
+import signal
+import Queue
+import ConfigParser
 from alarm import threadalarm, threadweb, threadqueue, threadplayer
+from scan import music
+
 if "--mock-player" in sys.argv:
 	from mock import player
 else:
 	from alarm import player
-import signal
-import Queue
-import ConfigParser
+
 if "--mock-light" in sys.argv:
 	from mock.light import Light
 else:
 	from light import Light
-from scan import music
 
 # Set up logger
 if "--debug" in sys.argv:
@@ -48,13 +50,13 @@ collection.scan()
 logging.info('Scanning finished. Found ' +  str(collection.count()) + ' items')
 
 queue = Queue.Queue()
+light = Light(logging)
 
 logging.info('Starting player')
 player = player.Player(logging)
 threadPlayer = threadplayer.ThreadPlayer("player", player, collection, queue, logging)
 threadPlayer.start()
 
-light = Light()
 logging.info('Starting alarm')
 threadAlarm = threadalarm.ThreadAlarm("alarm", player, queue, logging)
 threadAlarm.setCollection(collection)
@@ -75,6 +77,7 @@ threadQueue.start()
 def signal_handler(signal, frame):
 	logging.info('Shutting down alarm')
 	threadAlarm.shutdown()
+	light.shutdown()
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
 
