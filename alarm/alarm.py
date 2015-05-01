@@ -9,6 +9,7 @@ class Alarm:
 	__alarmTriggered = False
 	__run = True
 	__startVolume = 10
+	__light = None
 
 	def __init__(self, player, logging):
 		self.__logging = logging
@@ -16,6 +17,9 @@ class Alarm:
 		self.__player = player
 		# Loop indefinitely
 		self.__player.repeat(0)
+
+	def set_light(self, light):
+		self.__light = light
 
 	def setWakeupTime(self, wakeupTime):
 		self.__wakeupTime = wakeupTime
@@ -37,6 +41,8 @@ class Alarm:
 	def start(self):
 		music = self.getWakeupMusicFile()
 		self.__player.fadein(music)
+		if self.__light != None:
+			self.__light.fadein()
 
 	def run(self):
 		while self.__run:
