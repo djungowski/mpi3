@@ -11,7 +11,10 @@ else:
 import signal
 import Queue
 import ConfigParser
-from light import Light
+if "--mock-light" in sys.argv:
+	from mock.light import Light
+else:
+	from light import Light
 from scan import music
 
 # Set up logger
