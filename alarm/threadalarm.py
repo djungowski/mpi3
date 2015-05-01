@@ -8,6 +8,7 @@ class ThreadAlarm(threading.Thread):
 	__queue = None
 	__collection = None
 	__player = None
+	__light = None
 
 	def __init__(self, name, player, queue, logging):
 		threading.Thread.__init__(self, name=name)
@@ -21,11 +22,16 @@ class ThreadAlarm(threading.Thread):
 	def setCollection(self,collection):
 		self.__collection = collection;
 
+	def set_light(self, light):
+		self.__light = light
+
 	def queue(self):
 		return self.__queue
 
 	def run(self):
 		self.alarm = alarm.Alarm(self.__player, self.__logging)
+		if self.__light != None:
+			self.alarm.set_light(self.__light)
 		self.__logging.info('Alarm ready')
 		self.alarm.run()
 

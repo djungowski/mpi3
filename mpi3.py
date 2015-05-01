@@ -11,6 +11,7 @@ else:
 import signal
 import Queue
 import ConfigParser
+from light import Light
 from scan import music
 
 # Set up logger
@@ -50,9 +51,11 @@ player = player.Player(logging)
 threadPlayer = threadplayer.ThreadPlayer("player", player, collection, queue, logging)
 threadPlayer.start()
 
+light = Light()
 logging.info('Starting alarm')
 threadAlarm = threadalarm.ThreadAlarm("alarm", player, queue, logging)
 threadAlarm.setCollection(collection)
+threadAlarm.set_light(light)
 threadAlarm.start()
 
 port = config.get('http', 'port')
