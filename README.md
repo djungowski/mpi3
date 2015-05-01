@@ -19,9 +19,13 @@ Since the webinterface listens on port 80 you need to run the pilarm as root. If
 
 	sudo ./mpi3.py
 
-If you want to run mp3i in the debug mode you can do so by running
+If you want to run mpi3 in the debug mode you can do so by running
 
 	sudo ./mpi3.py --debug
+	
+If you want to run mpi3 with a mocked player (in case you can't use mplayer):
+
+	sudo ./mpi3.py --mock-player
 
 If you want to run mpi3 as daemon
 
