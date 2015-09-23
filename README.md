@@ -26,6 +26,10 @@ If you want to run mpi3 in the debug mode you can do so by running
 If you want to run mpi3 with a mocked player (in case you can't use mplayer - this should be used for development only):
 
 	sudo ./mpi3.py --mock-player
+	
+If you don't have the WS2801 light connected you can mock it:
+
+	sudo ./mpi3.py --mock-light
 
 If you want to run mpi3 as daemon
 
